@@ -14,6 +14,9 @@ client = ElevenLabs(
 
 
 def text_to_speech(text, voice_id="JBFqnCBsd6RMkjVDRZzb", model="eleven_multilingual_v2"):
+    output_dir = "TTS_Audio"
+    os.makedirs(output_dir, exist_ok=True)
+
     # Generate audio (returns a generator)
     audio_stream = client.text_to_speech.convert(
         text=text,
@@ -31,9 +34,10 @@ def text_to_speech(text, voice_id="JBFqnCBsd6RMkjVDRZzb", model="eleven_multilin
     # Generate a random filename
     random_name = get_random_name(combo=[ADJECTIVES, NAMES], separator='_')
     filename = f"{random_name}.mp3"
+    full_path = os.path.join(output_dir, filename)
 
     # Save audio to file
-    with open(filename, "wb") as f:
+    with open(full_path, "wb") as f:
         f.write(audio_data)
 
     print(f"Saved as: {filename}")
